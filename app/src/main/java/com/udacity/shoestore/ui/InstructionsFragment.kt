@@ -30,6 +30,11 @@ class InstructionsFragment : Fragment() {
         )
 
 
+        binding.instructionShoeButton.setOnClickListener { view:View ->
+            view.findNavController().navigate(InstructionsFragmentDirections.actionInstructionsFragmentToShoeListFragment())
+        }
+
+
 
 
         return binding.root
