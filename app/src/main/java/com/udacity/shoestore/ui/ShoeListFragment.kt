@@ -40,6 +40,7 @@ class ShoeListFragment : Fragment() {
 
 
 
+
         return  binding.root
 
 
