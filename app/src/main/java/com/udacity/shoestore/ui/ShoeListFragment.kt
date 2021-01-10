@@ -6,13 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.udacity.shoestore.R
 import com.udacity.shoestore.databinding.FragmentShoeListBinding
+import com.udacity.shoestore.models.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_shoe_detail.view.*
 
 
 class ShoeListFragment : Fragment() {
+
+    private lateinit var viewModel: SharedViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,14 +34,15 @@ class ShoeListFragment : Fragment() {
             inflater,R.layout.fragment_shoe_list,container,false
         )
 
+        viewModel =ViewModelProvider(this).get(SharedViewModel::class.java)
+
         binding.floatingActionButton.setOnClickListener { view:View->
             view.findNavController().navigate(ShoeListFragmentDirections.actionShoeListFragmentToShoeDetailFragment())
 
 
+            viewModel.loadData()
+
         }
-
-
-
 
 
 

@@ -1,9 +1,10 @@
 package com.udacity.shoestore.models
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class ShoeDetailViewModel:ViewModel() {
+class SharedViewModel:ViewModel() {
 
     // The shoe Name
     val shoeName = MutableLiveData<String>()
@@ -20,7 +21,7 @@ class ShoeDetailViewModel:ViewModel() {
 
     }
 
- fun saveData(shoename:String,companyname:String,shoesize:Int,descriptions:String) {
+ fun saveData(shoename:String,companyname:String,shoesize:Int,descriptions:String){
 
         shoeName.value = shoename
         companyName.value = companyname
@@ -28,9 +29,12 @@ class ShoeDetailViewModel:ViewModel() {
         description.value =descriptions
 
 
+
     }
 
-    private fun loadData(){
+    fun loadData(){
+
+
 
     }
 
