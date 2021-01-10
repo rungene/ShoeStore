@@ -1,22 +1,24 @@
 package com.udacity.shoestore.ui
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.udacity.shoestore.R
 import com.udacity.shoestore.databinding.FragmentShoeListBinding
+import com.udacity.shoestore.databinding.ShoeListItemBinding
 import com.udacity.shoestore.models.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_shoe_detail.view.*
 
 
 class ShoeListFragment : Fragment() {
 
-    private lateinit var viewModel: SharedViewModel
+    private  val viewModel: SharedViewModel by activityViewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,20 +36,50 @@ class ShoeListFragment : Fragment() {
             inflater,R.layout.fragment_shoe_list,container,false
         )
 
-        viewModel =ViewModelProvider(this).get(SharedViewModel::class.java)
+        binding.lifecycleOwner = this
+
+        viewModel.shoeList.observe(viewLifecycleOwner, Observer {
+            for (shoe in it){
+                DataBindingUtil.inflate<ShoeListItemBinding>(
+                    layoutInflater,R.layout.shoe_list_item,
+                    binding.shoeListLayout,
+                    true
+                ).apply {
+                    this.shoe = shoe
+                }
+
+            }
+
+        })
+
 
         binding.floatingActionButton.setOnClickListener { view:View->
             view.findNavController().navigate(ShoeListFragmentDirections.actionShoeListFragmentToShoeDetailFragment())
 
 
-            viewModel.loadData()
 
         }
 
 
-
         return  binding.root
 
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu,menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        if (item.itemId==R.id.logout)
+            logout()
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun logout() {
+        findNavController().navigate(R.id.action_shoeListFragment_to_loginFragment)
 
     }
 

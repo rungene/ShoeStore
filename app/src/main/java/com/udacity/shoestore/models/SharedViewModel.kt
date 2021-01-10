@@ -1,41 +1,35 @@
 package com.udacity.shoestore.models
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.navigation.findNavController
 
 class SharedViewModel:ViewModel() {
 
-    // The shoe Name
-    val shoeName = MutableLiveData<String>()
-    //company name
-    val companyName = MutableLiveData<String>()
-    //Shoe Size
-    val shoeSize = MutableLiveData<Int>()
-    //description
-    val description = MutableLiveData<String>()
+    //Create Live Data Object
+    private var _shoeList =MutableLiveData<ArrayList<Shoe>>()
+    val shoeList:LiveData<ArrayList<Shoe>>
+    get() =_shoeList
 
+
+    fun dataSave(v:View, shoe: Shoe) {
+        _shoeList.value?.add(shoe)
+        navigateUp(v)
+
+    }
 
     init {
-        //saveData()
+     _shoeList.value=ArrayList()
 
     }
 
- fun saveData(shoename:String,companyname:String,shoesize:Int,descriptions:String){
-
-        shoeName.value = shoename
-        companyName.value = companyname
-        shoeSize.value = shoesize
-        description.value =descriptions
-
+    fun navigateUp(v:View){
+        v.findNavController().navigateUp()
 
 
     }
 
-    fun loadData(){
-
-
-
-    }
 
 }
